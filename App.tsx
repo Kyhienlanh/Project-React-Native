@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Screenlogin from './Screens/Screenlogin';
 import ScreenRegister from './Screens/ScreenRegister';
 import ScreenHome from './Screens/ScreenHome';
+import BottomTabNavigator from './Screens/BottomTabNavigator';
 
 
 
@@ -14,8 +15,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='loginNote'>
-         <Stack.Screen name="Home"
-         component={ScreenHome}
+         <Stack.Screen name="BottomTabNavigator"
+         component={BottomTabNavigator}
           options={
             {
               headerShown:false
@@ -24,8 +25,6 @@ const App = () => {
           
           }
          />
-       {/* <Stack.Screen name="AddNote" component={ScreenAddNote}/>
-        <Stack.Screen name="DetailNote" component={ScreenDetailNote}/> */}
         <Stack.Screen name="loginNote" component={Screenlogin} options={ { headerShown:false}}/>
         <Stack.Screen name="RegisterNote" component={ScreenRegister}/>
       </Stack.Navigator>

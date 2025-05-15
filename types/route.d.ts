@@ -1,5 +1,5 @@
 type RootStackParamList = {
-    Home: undefined;
+    BottomTabNavigator: undefined;
     // AddNote: undefined;
     // DetailNote: { id: string }; 
     loginNote: undefined;

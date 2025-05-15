@@ -8,7 +8,7 @@ const Screenlogin = () => {
   const [taikhoan, settaikhoan] = useState('');
   const [matkhau, setmatkhau] = useState('');
   const [loading, setLoading] = useState(false);
-  const [secureTextEntry, setSecureTextEntry] = useState(true); // State to toggle password visibility
+  const [secureTextEntry, setSecureTextEntry] = useState(true); 
 
   const CheckLogin = () => {
     if (!taikhoan || !matkhau) {
@@ -17,7 +17,7 @@ const Screenlogin = () => {
     }
     signInWithEmailAndPassword(getAuth(), taikhoan, matkhau)
       .then(() => {
-        navigation.navigate('Home');
+        navigation.navigate('BottomTabNavigator');
       })
       .catch(error => {
         if (error.code === 'auth/user-not-found') {
