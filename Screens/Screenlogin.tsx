@@ -1,14 +1,14 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Screenlogin = () => {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [taikhoan, settaikhoan] = useState('');
   const [matkhau, setmatkhau] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [secureTextEntry, setSecureTextEntry] = useState(true); 
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const CheckLogin = () => {
     if (!taikhoan || !matkhau) {
@@ -16,9 +16,7 @@ const Screenlogin = () => {
       return;
     }
     signInWithEmailAndPassword(getAuth(), taikhoan, matkhau)
-      .then(() => {
-        navigation.navigate('BottomTabNavigator');
-      })
+      .then(() => navigation.navigate('BottomTabNavigator'))
       .catch(error => {
         if (error.code === 'auth/user-not-found') {
           Alert.alert('Lỗi', 'Tài khoản không tồn tại!');
@@ -35,111 +33,103 @@ const Screenlogin = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.item1}>
-        <Text style={{ textAlign: 'center', fontFamily: 'Roboto_Condensed-Black', fontSize: 20 }}>Chào mừng đến app chú thích</Text>
-      </View>
-      <View style={styles.item2}>
-        {/* <Image
-          source={require('../assets/images/taking-notes-icon-design-free-vector.jpg')}
-          style={styles.image}
-        /> */}
-      </View>
-      <View style={styles.item3}>
+      <Text style={styles.title}>📓 Chào mừng đến Note App</Text>
+
+      <View style={styles.inputContainer}>
+        <Ionicons name="person-outline" size={24} color="#333" style={styles.icon} />
         <TextInput
           style={styles.input}
           onChangeText={settaikhoan}
-          placeholder="Tài khoản"
+          placeholder="Email hoặc tài khoản"
+          placeholderTextColor="#aaa"
         />
-        <View style={styles.customPass}>
-          <TextInput
-            style={styles.input1}
-            onChangeText={setmatkhau}
-            secureTextEntry={secureTextEntry} 
-            placeholder="Mật khẩu"
-          />
-          <TouchableOpacity onPress={() => setSecureTextEntry(!secureTextEntry)} style={styles.iconne}>
-            <Text style={styles.icon}>{secureTextEntry ? '👁️' : '🙈'}</Text> 
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.button} onPress={CheckLogin}>
-          <Text style={styles.buttonText}>Đăng nhập</Text>
-        </TouchableOpacity>
-        <Text style={{ textAlign: 'center', paddingTop: 20, color: 'blue' }} onPress={() => navigation.navigate('RegisterNote')}>
-          Đăng kí
-        </Text>
       </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons name="lock-closed-outline" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          onChangeText={setmatkhau}
+          secureTextEntry={secureTextEntry}
+          placeholder="Mật khẩu"
+          placeholderTextColor="#aaa"
+        />
+        <TouchableOpacity onPress={() => setSecureTextEntry(!secureTextEntry)}>
+          <Ionicons name={secureTextEntry ? 'eye-off-outline' : 'eye-outline'} size={22} color="#666" />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={CheckLogin}>
+        <Text style={styles.buttonText}>Đăng nhập</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.registerText}>
+        Bạn chưa có tài khoản?{' '}
+        <Text style={styles.linkText} onPress={() => navigation.navigate('RegisterNote')}>
+          Đăng ký
+        </Text>
+      </Text>
     </View>
   );
 };
 
 export default Screenlogin;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'white'
+    padding: 25,
+    backgroundColor: '#f0f4f8',
   },
-  item1: {
-    flex: 0,
+  title: {
+    fontSize: 22,
+    textAlign: 'center',
+    marginBottom: 40,
+    fontWeight: 'bold',
+    color: '#333',
   },
-  item2: {
-    flex: 1,
-    marginTop: 20
-  },
-  item3: {
-    flex: 1.2
-  },
-  customPass: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 8,
-    margin: 15
-  },
-  iconne:{
-    padding:5,
-  },
-  input: {
-    height: 40,
-    margin: 15,
-    borderWidth: 1,
-    borderColor: 'black',
-    paddingHorizontal: 10,
-    borderRadius: 8,
-  },
-  input1: {
-    height: 40,
-    borderRadius: 8,
-    flex: 8,
-    borderColor: 'white',
-    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   icon: {
-    flex: 2,
-    textAlign: 'center',
-    fontSize: 18,
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: '#333',
   },
   button: {
     backgroundColor: '#007bff',
-    padding: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'green'
+    paddingVertical: 14,
+    borderRadius: 10,
+    marginTop: 10,
+    elevation: 2,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 17,
+    fontWeight: '600',
   },
-  image: {
-    width: 200,
-    height: 200,
-    alignSelf: 'center',
-    marginTop: 10,
+  registerText: {
+    textAlign: 'center',
+    marginTop: 25,
+    fontSize: 14,
+    color: '#555',
+  },
+  linkText: {
+    color: '#007bff',
+    fontWeight: 'bold',
   },
 });
