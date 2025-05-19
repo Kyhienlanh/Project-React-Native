@@ -45,8 +45,19 @@ const ScreenAdd = () => {
     // Reset nếu cần
   };
     const handleOpenCategory = () => {
-      navigation.navigate('category');
-      Alert.alert("category");
+     navigation.navigate('category', {
+        onSelectCategory: (data) => {
+          if(data.type=="income"){
+            setType(data.type);
+            setCategory(data.categoryId);
+          }
+          else{
+             setType("expense");
+            setCategory(data.categoryId);
+          }
+        }
+      });
+
     };
 
   return (
@@ -57,6 +68,7 @@ const ScreenAdd = () => {
         <TouchableOpacity
           style={[styles.typeButton, type === 'income' && styles.typeButtonActive]}
           onPress={() => setType('income')}
+          disabled={true}
         >
           <Ionicons name="arrow-down-circle-outline" size={20} color={type === 'income' ? 'white' : '#4caf50'} />
           <Text style={type === 'income' ? styles.typeTextActive : styles.typeText}> Thu nhập</Text>
@@ -64,6 +76,7 @@ const ScreenAdd = () => {
         <TouchableOpacity
           style={[styles.typeButton, type === 'expense' && styles.typeButtonActive]}
           onPress={() => setType('expense')}
+          disabled={true}
         >
           <Ionicons name="arrow-up-circle-outline" size={20} color={type === 'expense' ? 'white' : '#4caf50'} />
           <Text style={type === 'expense' ? styles.typeTextActive : styles.typeText}> Chi tiêu</Text>

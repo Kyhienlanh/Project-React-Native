@@ -6,6 +6,10 @@ import Screenlogin from './Screens/Screenlogin';
 import ScreenRegister from './Screens/ScreenRegister';
 import BottomTabNavigator from './Screens/BottomTabNavigator';
 import CategoryScreen from './Screens/CategoryScreen';
+import ScreenAddcate from './Screens/ScreenAddcate';
+import ScreenchooseIcon from './Screens/ScreenchooseIcon';
+
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
@@ -25,7 +29,8 @@ const App = () => {
         <Stack.Screen name="loginNote" component={Screenlogin} options={ { headerShown:false}}/>
         <Stack.Screen name="RegisterNote" component={ScreenRegister}/>
         <Stack.Screen name="category" component={CategoryScreen}/>
-       
+        <Stack.Screen name="addcategory" component={ScreenAddcate}/>
+        <Stack.Screen name="chooseIcon" component={ScreenchooseIcon}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
