@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TextInput ,TouchableOpacity,SafeAreaView} from 'react-native'
+import { StyleSheet, Text, View,TextInput,Alert ,TouchableOpacity,SafeAreaView} from 'react-native'
 import React, { useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useRoute, RouteProp} from '@react-navigation/native';
@@ -18,7 +18,7 @@ const ScreenRegister = () => {
           { name: 'Lương', color: '#00ff00', icon: 'cash-outline' },
           { name: 'Thưởng', color: '#00aaff', icon: 'gift-outline' },
           { name: 'Bán hàng', color: '#33cc33', icon: 'cart-outline' },
-          { name: 'Lãi ngân hàng', color: '#3399ff', icon: 'wallet-outline' },
+          { name: 'Lãi ngân hàng', color: '#3399ff', icon: 'wallet-outline'},
           { name: 'Đầu tư', color: '#66ccff', icon: 'trending-up-outline' },
         ];
 
@@ -48,13 +48,31 @@ const ScreenRegister = () => {
     };
 
    const register = () => {
+    if (!taikhoan || !matkhau || !checkmatkhau) {
+  Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin');
+  return;
+}
   if (matkhau === checkmatkhau) {
     setloading(true);
-    createUserWithEmailAndPassword(getAuth(), taikhoan, matkhau)
-      .then((userCredential) => {
-        console.log('Tài khoản tạo thành công:', userCredential.user.email);
-        createDefaultCategories(userCredential.user.uid);
-      })
+   createUserWithEmailAndPassword(getAuth(), taikhoan, matkhau)
+  .then((userCredential) => {
+    console.log('Tài khoản tạo thành công:', userCredential.user.email);
+    createDefaultCategories(userCredential.user.uid);
+
+   
+    Alert.alert(
+      'Thành công',
+      'Đăng ký tài khoản thành công!',
+      [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack(), 
+        },
+      ],
+      { cancelable: false }
+    );
+  })
+
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
           console.log('Email đã được sử dụng!');
@@ -66,7 +84,8 @@ const ScreenRegister = () => {
       })
       .finally(() => setloading(false));
   } else {
-    console.log('Mật khẩu không trùng');
+    Alert.alert('Lỗi', 'Mật khẩu không trùng');
+  return;
   }
 };
  return (
@@ -105,7 +124,7 @@ const ScreenRegister = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
+      <TouchableOpacity style={styles.button} onPress={register}>
         <Text style={styles.buttonText}>Đăng ký</Text>
       </TouchableOpacity>
 

@@ -65,6 +65,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen name="Reports" component={ScreenReports} />
       <Tab.Screen name="Profile" component={ScreenSettings} />
+      
     </Tab.Navigator>
   );
 };

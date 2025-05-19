@@ -4,11 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Screenlogin from './Screens/Screenlogin';
 import ScreenRegister from './Screens/ScreenRegister';
-import ScreenHome from './Screens/ScreenHome';
 import BottomTabNavigator from './Screens/BottomTabNavigator';
-
-
-
+import CategoryScreen from './Screens/CategoryScreen';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
@@ -27,6 +24,8 @@ const App = () => {
          />
         <Stack.Screen name="loginNote" component={Screenlogin} options={ { headerShown:false}}/>
         <Stack.Screen name="RegisterNote" component={ScreenRegister}/>
+        <Stack.Screen name="category" component={CategoryScreen}/>
+       
       </Stack.Navigator>
     </NavigationContainer>
   );
