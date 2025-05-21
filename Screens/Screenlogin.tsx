@@ -33,7 +33,7 @@ const Screenlogin = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>📓 Chào mừng đến Note App</Text>
+      <Text style={styles.title}>📓 Ứng dụng quản lí chi tiêu</Text>
 
       <View style={styles.inputContainer}>
         <Ionicons name="person-outline" size={24} color="#333" style={styles.icon} />

@@ -22,7 +22,7 @@ interface Category {
 
 const ScreenAdd = () => {
   const [type, setType] = useState<'income' | 'expense'>('expense');
-  const [category, setCategory] = useState<Category>();
+  const [category, setCategory] = useState<Category | null>(null);
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(new Date());
   const [note, setNote] = useState('');
@@ -90,37 +90,42 @@ const uploadImage = async () => {
     if (selectedDate) setDate(selectedDate);
   };
 
-  const handleSave = async() => {
-    if (!amount || !category) {
-      Alert.alert('Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-      try {
-      const imageUrl = await uploadImage();
-      await firestore().collection('category').add({
-        userId: currentUser?.uid,
-        type,
-        category,
-        imageUrl: imageUrl || null,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        amount: parseFloat(amount),
-        date: date.toISOString(),
-        note,
-        spentWith,
-      });
-      navigation.goBack();
-    } catch (error) {
-      console.error('Lỗi thêm ghi chú:', error);
-      Alert.alert('Thêm thu chi thất bại.');
-    } finally {
-      // setUploading(false);
-      Alert.alert('Thêm thành công!');
-    }
-   
+  const handleSave = async () => {
+  if (!amount || !category) {
+    Alert.alert('Vui lòng nhập đầy đủ thông tin');
+    return;
+  }
 
-  
+  try {
+    const imageUrl = await uploadImage();
+    await firestore().collection('transaction').add({
+      userId: currentUser?.uid,
+      type,
+      category,
+      imageUrl: imageUrl || null,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      amount: parseFloat(amount),
+      date: date.toISOString(),
+      note,
+      spentWith,
+    });
+
+    setType('expense');
+    setCategory(null);
+    setAmount('');
+    setDate(new Date());
+    setNote('');
+    setSpentWith('');
+    setImageUri(null);
+
     Alert.alert('Lưu giao dịch thành công!');
-  };
+    navigation.goBack();
+  } catch (error) {
+    console.error('Lỗi thêm ghi chú:', error);
+    Alert.alert('Thêm thu chi thất bại.');
+  }
+};
+
 
   const handleOpenCategory = () => {
     navigation.navigate('category', {
