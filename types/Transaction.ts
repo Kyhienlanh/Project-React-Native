@@ -8,6 +8,7 @@ export interface Category {
 }
 
 export interface Transaction {
+  idTransaction:string;
   amount: number;
   note: string;
   type: 'income' | 'expense';
@@ -17,4 +18,5 @@ export interface Transaction {
   imageUrl: string | null;
   spentWith: string;
   category: Category;
+
 }

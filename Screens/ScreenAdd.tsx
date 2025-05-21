@@ -99,16 +99,18 @@ const uploadImage = async () => {
   try {
     const imageUrl = await uploadImage();
     await firestore().collection('transaction').add({
-      userId: currentUser?.uid,
-      type,
-      category,
-      imageUrl: imageUrl || null,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-      amount: parseFloat(amount),
-      date: date.toISOString(),
-      note,
-      spentWith,
-    });
+  userId: currentUser?.uid,
+  type,
+  category,
+  imageUrl: imageUrl || null,
+  createdAt: firestore.FieldValue.serverTimestamp(), 
+  createdAtDate: firestore.Timestamp.fromDate(date), 
+  amount: parseFloat(amount),
+  date: date.toISOString(), 
+  note,
+  spentWith,
+});
+
 
     setType('expense');
     setCategory(null);
