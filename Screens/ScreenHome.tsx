@@ -16,9 +16,12 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
 import { Transaction } from '../types/Transaction'; // đảm bảo file types đã đúng
+import { useNavigation ,NavigationProp} from '@react-navigation/native';
+import { useRoute, RouteProp} from '@react-navigation/native';
 
 const ScreenHome = () => {
   const user = auth().currentUser;
+    const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [transaction, setTransaction] = useState<Transaction[]>([]);
   const [transactionFull, setTransactionFull] = useState<Transaction[]>([]);
   const [totalIncome, setTotalIncome] = useState(0);
@@ -231,7 +234,7 @@ const ScreenHome = () => {
 <View style={styles.chartContainer}>
   <View style={styles.transactionHeaderRow}>
     <Text style={styles.chartTitle}>Báo cáo tháng này</Text>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={()=>{navigation}}>
       <Text style={{ color: 'red', fontSize: 14 }}>Xem báo cáo</Text>
     </TouchableOpacity>
   </View>
@@ -294,7 +297,7 @@ const ScreenHome = () => {
 
         <View style={styles.transactionHeaderRow}>
           <Text style={styles.sectionTitle}>Giao dịch gần nhất</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate('Transactions')}}>
             <Text style={{ color: '#4CAF50', fontSize: 14 }}>Xem tất cả</Text>
           </TouchableOpacity>
         </View>

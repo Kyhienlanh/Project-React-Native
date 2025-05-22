@@ -32,7 +32,7 @@ const ScreenAdd = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const currentUser = getAuth().currentUser;
 
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+const navigation = useNavigation<NativeStackNavigationProp<any>>();
 const requestCameraPermission = async () => {
   if (Platform.OS === 'android') {
     try {

@@ -6,7 +6,7 @@ import { Transaction } from '../types/Transaction';
 import firestore from '@react-native-firebase/firestore';
 import React, { useState, useEffect, useCallback } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation ,NavigationProp} from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getAuth } from '@react-native-firebase/auth';
 import { launchCamera,launchImageLibrary } from 'react-native-image-picker';
@@ -15,7 +15,7 @@ import storage from '@react-native-firebase/storage';
 import { LineChart } from 'react-native-chart-kit';
 import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { useRoute, RouteProp} from '@react-navigation/native';
 const groupByDate = (data: Transaction[]) => {
   const grouped: { [key: string]: Transaction[] } = {};
   data.forEach((t) => {
@@ -65,6 +65,7 @@ const ScreenTransactions = () => {
    const [totalExpense, setTotalExpense] = useState(0);
    const [total, setTotal] = useState(0);
    const [chartType, setChartType] = useState<'income' | 'expense'>('income');
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
    useEffect(() => {
   calculateTotal();
 }, [transaction]);
@@ -94,8 +95,8 @@ const ScreenTransactions = () => {
           currency: 'VND',
         }).format(amount);
       };
-  const currentMonth = new Date().getMonth(); // 0-11
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth); // mặc định tháng này
+  const currentMonth = new Date().getMonth(); 
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth); 
 useEffect(() => {
   if (!user?.uid) return;
 
@@ -172,19 +173,21 @@ const handleDeleteTransaction = (t: Transaction) => {
     { cancelable: true }
   );
 };
-
+    const detail=(id:string)=>{
+      navigation.navigate('detailTransactions',{id:id});
+    }
   return (
     <View style={styles.container}>
       {/* PHẦN TỔNG QUAN CỐ ĐỊNH */}
       <View style={styles.summaryContainer}>
         <Text style={styles.balanceText}>Số dư</Text>
-        <Text style={styles.balanceAmount}>{total}</Text>
+        <Text style={styles.balanceAmount}>{Math.abs(total).toLocaleString()} vnđ</Text>
          <TouchableOpacity  
               onPress={test}
             >
-              <Text >
+              {/* <Text >
                click thu
-              </Text>
+              </Text> */}
             </TouchableOpacity>
         {/* TAB CÓ TƯƠNG TÁC */}
        <ScrollView
@@ -216,19 +219,24 @@ const handleDeleteTransaction = (t: Transaction) => {
         <View style={styles.inOutRow}>
           <View style={styles.inOutItem}>
             <Text style={styles.label}>Tiền vào</Text>
-            <Text style={styles.inAmount}>{totalIncome}</Text>
+            <Text style={styles.inAmount}>{Math.abs(totalIncome).toLocaleString()} vnđ</Text>
           </View>
           <View style={styles.inOutItem}>
             <Text style={styles.label}>Tiền ra</Text>
-            <Text style={styles.outAmount}>{totalExpense}</Text>
+            <Text style={styles.outAmount}>{Math.abs(totalExpense).toLocaleString()} vnđ</Text>
           </View>
         </View>
 
         <Text style={styles.totalBalance}>{}</Text>
 
+      <TouchableOpacity onPress={() => {
+        navigation.navigate('Chart', { selectedMonth: selectedMonth });
+      }}>
         <View style={styles.reportButton}>
           <Text style={styles.reportButtonText}>Xem báo cáo cho giai đoạn này</Text>
         </View>
+      </TouchableOpacity>
+
       </View>
 
    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 16 }}>
@@ -253,6 +261,7 @@ const handleDeleteTransaction = (t: Transaction) => {
               key={t.idTransaction}
               style={styles.transactionItem}
               onLongPress={() => handleDeleteTransaction(t)}
+              onPress={()=>detail(t.idTransaction)}
             >
               <View style={styles.transactionRow}>
                 <View style={styles.iconWithLabel}>
@@ -383,7 +392,7 @@ balanceText: {
 balanceAmount: {
   fontSize: 22,
   fontWeight: 'bold',
-  color: '#e74c3c',
+  color: 'black',
   marginTop: 4,
   marginBottom: 12,
 },

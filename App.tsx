@@ -8,6 +8,10 @@ import BottomTabNavigator from './Screens/BottomTabNavigator';
 import CategoryScreen from './Screens/CategoryScreen';
 import ScreenAddcate from './Screens/ScreenAddcate';
 import ScreenchooseIcon from './Screens/ScreenchooseIcon';
+import ScreendetailTransactions from './Screens/ScreendetailTransactions';
+import ScreenChart from './Screens/ScreenChart';
+import ScreenTransactions from './Screens/ScreenTransactions';
+import ScreenCreateBudget from './Screens/ScreenCreateBudget';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -31,6 +35,10 @@ const App = () => {
         <Stack.Screen name="category" component={CategoryScreen}/>
         <Stack.Screen name="addcategory" component={ScreenAddcate}/>
         <Stack.Screen name="chooseIcon" component={ScreenchooseIcon}/>
+        <Stack.Screen name="detailTransactions" component={ScreendetailTransactions}/>
+        <Stack.Screen name="Chart" component={ScreenChart}/>
+        <Stack.Screen name="Transactions" component={ScreenTransactions}/>
+           <Stack.Screen name="CreateBudget" component={ScreenCreateBudget}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
