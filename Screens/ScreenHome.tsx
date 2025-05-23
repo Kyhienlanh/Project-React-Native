@@ -18,7 +18,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Transaction } from '../types/Transaction'; // đảm bảo file types đã đúng
 import { useNavigation ,NavigationProp} from '@react-navigation/native';
 import { useRoute, RouteProp} from '@react-navigation/native';
-
+import { useTheme }  from './ThemeContext'
 const ScreenHome = () => {
   const user = auth().currentUser;
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
@@ -28,6 +28,7 @@ const ScreenHome = () => {
   const [totalExpense, setTotalExpense] = useState(0);
   const [total, setTotal] = useState(0);
   const [chartType, setChartType] = useState<'income' | 'expense'>('income');
+   const { theme } = useTheme()
   const formatCurrencyVND = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
@@ -198,7 +199,7 @@ const ScreenHome = () => {
   }, [transactionFull]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>  
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.headerRow}>
           <Image

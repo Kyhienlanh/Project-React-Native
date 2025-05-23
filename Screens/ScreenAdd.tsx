@@ -13,6 +13,7 @@ import { getAuth } from '@react-native-firebase/auth';
 import { launchCamera,launchImageLibrary } from 'react-native-image-picker';
 import { PermissionsAndroid, Platform } from 'react-native';
 import storage from '@react-native-firebase/storage';
+import { useTheme }  from './ThemeContext'
 interface Category {
   id: string;
   name: string;
@@ -31,7 +32,7 @@ const ScreenAdd = () => {
   const [spentWith, setSpentWith] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
   const currentUser = getAuth().currentUser;
-
+  const { theme } = useTheme()
 const navigation = useNavigation<NativeStackNavigationProp<any>>();
 const requestCameraPermission = async () => {
   if (Platform.OS === 'android') {
@@ -163,8 +164,8 @@ const uploadImage = async () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContent}>
-      <View style={styles.container}>
+    <ScrollView contentContainerStyle={[styles.scrollContent]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
         <Text style={styles.label}>Loại giao dịch</Text>
         <View style={styles.typeSelector}>
           <TouchableOpacity

@@ -35,6 +35,14 @@ const ScreenRegister = () => {
 
       const incomeRef = firestore().collection('users').doc(userId).collection('incomeCategories');
       const expenseRef = firestore().collection('users').doc(userId).collection('expenseCategories');
+      const infoDoc = firestore().collection('users').doc(userId).collection('infoUser').doc('profile');
+      infoDoc.set({
+        address: null,
+        avatar: null,
+        fullName:null,
+        phoneNumber:null,
+        birthday:null, 
+      });
 
       for (const item of incomeDefaults) {
         await incomeRef.add(item);
@@ -43,7 +51,7 @@ const ScreenRegister = () => {
       for (const item of expenseDefaults) {
         await expenseRef.add(item);
       }
-
+    
       console.log('Tạo danh mục mặc định xong');
     };
 

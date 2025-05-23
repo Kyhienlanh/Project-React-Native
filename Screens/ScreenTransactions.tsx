@@ -16,6 +16,7 @@ import { LineChart } from 'react-native-chart-kit';
 import auth from '@react-native-firebase/auth';
 import { useFocusEffect } from '@react-navigation/native';
 import { useRoute, RouteProp} from '@react-navigation/native';
+import { useTheme }  from './ThemeContext'
 const groupByDate = (data: Transaction[]) => {
   const grouped: { [key: string]: Transaction[] } = {};
   data.forEach((t) => {
@@ -65,6 +66,7 @@ const ScreenTransactions = () => {
    const [totalExpense, setTotalExpense] = useState(0);
    const [total, setTotal] = useState(0);
    const [chartType, setChartType] = useState<'income' | 'expense'>('income');
+    const { theme } = useTheme()
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
    useEffect(() => {
   calculateTotal();
@@ -177,7 +179,7 @@ const handleDeleteTransaction = (t: Transaction) => {
       navigation.navigate('detailTransactions',{id:id});
     }
   return (
-    <View style={styles.container}>
+     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* PHẦN TỔNG QUAN CỐ ĐỊNH */}
       <View style={styles.summaryContainer}>
         <Text style={styles.balanceText}>Số dư</Text>

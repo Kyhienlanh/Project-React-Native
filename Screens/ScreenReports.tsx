@@ -12,7 +12,7 @@ import auth from '@react-native-firebase/auth';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Transaction } from '../types/Transaction';
-
+import { useTheme }  from './ThemeContext'
 type BudgetItem = {
   id: string;
   name: string;
@@ -30,7 +30,7 @@ const ScreenReports = () => {
   const [selectedBudget, setSelectedBudget] = useState<BudgetItem | null>(null);
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-
+   const { theme } = useTheme()
   const user = auth().currentUser;
   const userId = user?.uid;
 
@@ -132,7 +132,7 @@ const ScreenReports = () => {
   const totalSpent = transactions.reduce((sum, tx) => sum + tx.amount, 0);
 
   return (
-    <View style={styles.container}>
+   <View style={[styles.container, { backgroundColor: theme.background }]}>
       <TouchableOpacity
         style={styles.createButton}
         onPress={() => navigation.navigate('CreateBudget')}
@@ -252,6 +252,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: backgroundColor,
+   
     padding: 16,
   },
   createButton: {
