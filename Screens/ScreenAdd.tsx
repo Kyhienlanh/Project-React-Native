@@ -110,6 +110,7 @@ const uploadImage = async () => {
   date: date.toISOString(), 
   note,
   spentWith,
+  seen:false
 });
 
 

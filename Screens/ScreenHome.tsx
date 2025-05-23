@@ -21,7 +21,7 @@ import { useRoute, RouteProp} from '@react-navigation/native';
 import { useTheme }  from './ThemeContext'
 const ScreenHome = () => {
   const user = auth().currentUser;
-    const navigation: NavigationProp<RootStackParamList> = useNavigation();
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const [transaction, setTransaction] = useState<Transaction[]>([]);
   const [transactionFull, setTransactionFull] = useState<Transaction[]>([]);
   const [totalIncome, setTotalIncome] = useState(0);
@@ -29,6 +29,46 @@ const ScreenHome = () => {
   const [total, setTotal] = useState(0);
   const [chartType, setChartType] = useState<'income' | 'expense'>('income');
    const { theme } = useTheme()
+  const [profileData, setProfileData] = useState<any>(null);
+  const [qualityMess, SetqualityMess] = useState(0);
+
+      const mess = () => {
+        let count = 0;
+        transactionFull.forEach(item => {
+          if (item.seen === false) {
+            count++;
+          }
+        });
+        SetqualityMess(count);
+      };
+
+      useEffect(() => {
+        mess();
+      }, [transactionFull]);
+          useEffect(() => {
+            const userId = auth().currentUser?.uid;
+
+      if (!userId) return;
+
+      const profileRef = firestore()
+        .collection('users')
+        .doc(userId)
+        .collection('infoUser')
+        .doc('profile');
+
+      const unsubscribe = profileRef.onSnapshot(doc => {
+        if (doc.exists()) {
+          setProfileData(doc.data());
+        } else {
+          console.log('Không có dữ liệu');
+        }
+      });
+
+      return () => unsubscribe(); 
+}, []);
+
+
+
   const formatCurrencyVND = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
@@ -105,6 +145,7 @@ const ScreenHome = () => {
           userId: d.userId,
           imageUrl: d.imageUrl || null,
           spentWith: d.spentWith || '',
+          seen:d.seen,
           category: {
             id: d.category?.id || '',
             name: d.category?.name || '',
@@ -140,6 +181,7 @@ const ScreenHome = () => {
           userId: d.userId,
           imageUrl: d.imageUrl || null,
           spentWith: d.spentWith || '',
+          seen:d.seen,
           category: {
             id: d.category?.id || '',
             name: d.category?.name || '',
@@ -203,11 +245,22 @@ const ScreenHome = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.headerRow}>
           <Image
-            source={{ uri: 'https://i.pravatar.cc/150?img=3' }}
+            source={{ uri: profileData?.avatar ?? 'null' }}
             style={styles.avatar}
           />
-          <Text style={styles.userName}>{user?.email || 'Người dùng'}</Text>
-          <Ionicons name="notifications-outline" size={28} color="#333" />
+          <Text style={styles.userName}>{ profileData?.fullName || user?.email}</Text>
+          <TouchableOpacity onPress={()=>{navigation.navigate('Mess')}}>
+             <View style={{ position: 'relative' }}>
+                <Ionicons name="notifications-outline" size={28} color="#333" />
+                {qualityMess > 0 && (
+                  <View style={styles.notificationBadge}>
+                    <Text style={styles.notificationBadgeText}>
+                      {qualityMess > 99 ? '99+' : qualityMess}
+                    </Text>
+                  </View>
+                )}
+              </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.accountBox}>
@@ -238,6 +291,7 @@ const ScreenHome = () => {
     <TouchableOpacity onPress={()=>{navigation}}>
       <Text style={{ color: 'red', fontSize: 14 }}>Xem báo cáo</Text>
     </TouchableOpacity>
+    
   </View>
   <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
   <TouchableOpacity
@@ -475,6 +529,23 @@ transactionCard: {
   shadowOpacity: 0.1,
   shadowRadius: 4,
   elevation: 3, // hiệu ứng đổ bóng trên Android
+},notificationBadge: {
+  position: 'absolute',
+  top: -4,
+  right: -4,
+  backgroundColor: 'red',
+  borderRadius: 10,
+  width: 20,
+  height: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 10,
 },
+notificationBadgeText: {
+  color: 'white',
+  fontSize: 10,
+  fontWeight: 'bold',
+},
+
 
 });

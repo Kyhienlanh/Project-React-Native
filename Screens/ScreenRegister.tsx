@@ -37,11 +37,11 @@ const ScreenRegister = () => {
       const expenseRef = firestore().collection('users').doc(userId).collection('expenseCategories');
       const infoDoc = firestore().collection('users').doc(userId).collection('infoUser').doc('profile');
       infoDoc.set({
-        address: null,
-        avatar: null,
-        fullName:null,
-        phoneNumber:null,
-        birthday:null, 
+        address: '',
+        avatar: '',
+        fullName:'',
+        phoneNumber:'',
+        birthday:'', 
       });
 
       for (const item of incomeDefaults) {

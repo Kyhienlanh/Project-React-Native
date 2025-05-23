@@ -18,5 +18,5 @@ export interface Transaction {
   imageUrl: string | null;
   spentWith: string;
   category: Category;
-
+  seen:boolean|null
 }

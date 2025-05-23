@@ -1,36 +1,84 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
-  Image,
+  Text,
+  StyleSheet,
+  SafeAreaView,
   ScrollView,
-  Switch,
+  Dimensions,
+  Image,
   Alert,
-} from 'react-native'
+  TouchableOpacity,Switch
+} from 'react-native';
+import { LineChart } from 'react-native-chart-kit';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import { NavigationRouteContext, useFocusEffect } from '@react-navigation/native';
+import { Transaction } from '../types/Transaction'; // đảm bảo file types đã đúng
+import { useNavigation ,NavigationProp} from '@react-navigation/native';
+import { useRoute, RouteProp} from '@react-navigation/native';
 import { useTheme }  from './ThemeContext'
+
 
 const ScreenSettings = () => {
   const { isDarkMode, toggleTheme, theme } = useTheme() // 👈 Lấy từ context
+    const user = auth().currentUser;
+    const navigation: NavigationProp<RootStackParamList> = useNavigation();
+    const [profileData, setProfileData] = useState<any>(null);
+    useEffect(() => {
+      const userId = auth().currentUser?.uid;
+
+      if (!userId) return;
+
+      const profileRef = firestore()
+        .collection('users')
+        .doc(userId)
+        .collection('infoUser')
+        .doc('profile');
+
+      const unsubscribe = profileRef.onSnapshot(doc => {
+        if (doc.exists()) {
+          setProfileData(doc.data());
+        } else {
+          console.log('Không có dữ liệu');
+        }
+      });
+
+      return () => unsubscribe(); 
+}, []);
+
+
+    const handleLogout = async () => {
+      try {
+        await auth().signOut();
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'loginNote' }], 
+        });
+      } catch (error) {
+        console.error('Đăng xuất thất bại:', error);
+        Alert.alert('Lỗi', 'Không thể đăng xuất. Vui lòng thử lại.');
+      }
+    };
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
       <View style={[styles.header, { backgroundColor: theme.card }]}>
         <Image
-          source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
+          source={{ uri: profileData?.avatar ?? 'null' }}
           style={styles.avatar}
         />
-        <Text style={[styles.name, { color: theme.text }]}>Nguyễn Văn A</Text>
-        <Text style={[styles.email, { color: theme.text + '99' }]}>vana@example.com</Text>
+        <Text style={[styles.name, { color: theme.text }]}>{profileData?.fullName ?? 'Chưa có'}</Text>
+        <Text style={[styles.email, { color: theme.text + '99' }]}>{auth().currentUser?.email}</Text>
       </View>
 
       {/* Settings Options */}
       <View style={[styles.options, { backgroundColor: theme.card }]}>
-        <SettingOption label="👤 Hồ sơ cá nhân" onPress={() => {}} textColor={theme.text} />
-        <SettingOption label="🔔 Thông báo" onPress={() => {}} textColor={theme.text} />
-        <SettingOption label="🔒 Đổi mật khẩu" onPress={() => {}} textColor={theme.text} />
+        <SettingOption label="👤 Hồ sơ cá nhân" onPress={() => navigation.navigate('info')} textColor={theme.text} />
+        <SettingOption label="🔔 Tất cả giao dịch"onPress={() => {navigation.navigate('AllTrans')}} textColor={theme.text} />
+        <SettingOption label="🔒 Đổi mật khẩu" onPress={() => {navigation.navigate('forgotPassword')}} textColor={theme.text} />
 
         {/* Dark mode toggle */}
         <View style={styles.option}>
@@ -40,7 +88,7 @@ const ScreenSettings = () => {
 
         {/* Language */}
         <SettingOption
-          label="🌐 Chọn ngôn ngữ"
+          label="🌐 Ngôn ngữ"
           onPress={() => Alert.alert('Chọn ngôn ngữ', 'Chức năng đang phát triển')}
           textColor={theme.text}
         />
@@ -53,13 +101,14 @@ const ScreenSettings = () => {
         />
 
         {/* Logout */}
-        <SettingOption
-          label="🚪 Đăng xuất"
-          onPress={() => {}}
-          isLogout
-          textColor={theme.text}
-        />
-      </View>
+       <SettingOption
+        label="🚪 Đăng xuất"
+        onPress={handleLogout} 
+        isLogout
+        textColor={theme.text}
+      />
+
+      </View> 
     </ScrollView>
   )
 }

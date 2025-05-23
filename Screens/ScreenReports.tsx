@@ -88,6 +88,7 @@ const ScreenReports = () => {
           imageUrl: data.imageUrl,
           spentWith: data.spentWith,
           category: data.category,
+          seen:data.seen
         });
       });
 

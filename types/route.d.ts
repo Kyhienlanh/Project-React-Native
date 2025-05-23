@@ -9,4 +9,8 @@ type RootStackParamList = {
   Chart:{selectedMonth:number};
   Transactions:undefined;
   CreateBudget:undefined;
+  forgotPassword:undefined;
+  info:undefined;
+  AllTrans:undefined;
+  Mess:undefined;
 };

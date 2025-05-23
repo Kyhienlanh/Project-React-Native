@@ -13,6 +13,13 @@
   import ScreenTransactions from './Screens/ScreenTransactions';
   import ScreenCreateBudget from './Screens/ScreenCreateBudget';
   import { ThemeProvider } from './Screens/ThemeContext'
+import ScreenforgotPassword from './Screens/ScreenforgotPassword';
+
+import ScreenSettings from './Screens/ScreenSettings';
+import ScreenInfo from './Screens/ScreenInfo';
+import ScreenAllTrans from './Screens/ScreenAllTrans';
+import ScreenMess from './Screens/ScreenMess';
+
 
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -38,8 +45,13 @@
           <Stack.Screen name="chooseIcon" component={ScreenchooseIcon}/>
           <Stack.Screen name="detailTransactions" component={ScreendetailTransactions}/>
           <Stack.Screen name="Chart" component={ScreenChart}/>
+          <Stack.Screen name="info" component={ScreenInfo}/>
           <Stack.Screen name="Transactions" component={ScreenTransactions}/>
-            <Stack.Screen name="CreateBudget" component={ScreenCreateBudget}/>
+          <Stack.Screen name="CreateBudget" component={ScreenCreateBudget}/>
+          <Stack.Screen name="forgotPassword" component={ScreenforgotPassword}/>
+          <Stack.Screen name="AllTrans" component={ScreenAllTrans}/>
+           <Stack.Screen name="Mess" component={ScreenMess}/>
+        
         </Stack.Navigator>
       </NavigationContainer>
       </ThemeProvider>
