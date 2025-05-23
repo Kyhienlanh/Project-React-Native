@@ -19,6 +19,7 @@ import ScreenSettings from './Screens/ScreenSettings';
 import ScreenInfo from './Screens/ScreenInfo';
 import ScreenAllTrans from './Screens/ScreenAllTrans';
 import ScreenMess from './Screens/ScreenMess';
+import ScreenChat from './Screens/ScreenChat';
 
 
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -50,7 +51,8 @@ import ScreenMess from './Screens/ScreenMess';
           <Stack.Screen name="CreateBudget" component={ScreenCreateBudget}/>
           <Stack.Screen name="forgotPassword" component={ScreenforgotPassword}/>
           <Stack.Screen name="AllTrans" component={ScreenAllTrans}/>
-           <Stack.Screen name="Mess" component={ScreenMess}/>
+          <Stack.Screen name="Mess" component={ScreenMess}/>
+           <Stack.Screen name="Chat" component={ScreenChat}/>
         
         </Stack.Navigator>
       </NavigationContainer>

@@ -88,15 +88,15 @@ const ScreenSettings = () => {
 
         {/* Language */}
         <SettingOption
-          label="🌐 Ngôn ngữ"
-          onPress={() => Alert.alert('Chọn ngôn ngữ', 'Chức năng đang phát triển')}
+          label="🌐 Trợ lý ảo"
+          onPress={() => {navigation.navigate('Chat')}}
           textColor={theme.text}
         />
 
         {/* Terms */}
         <SettingOption
           label="📜 Điều khoản và Chính sách"
-          onPress={() => Alert.alert('Thông báo', 'Liên kết đến trang chính sách')}
+          onPress={() => Alert.alert('📜 Điều khoản và Chính sách', 'hehe')}
           textColor={theme.text}
         />
 
