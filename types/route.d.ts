@@ -14,4 +14,5 @@ type RootStackParamList = {
   AllTrans:undefined;
   Mess:undefined;
   Chat:undefined;
+  Findpassword:undefined;
 };

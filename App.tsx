@@ -20,6 +20,7 @@ import ScreenInfo from './Screens/ScreenInfo';
 import ScreenAllTrans from './Screens/ScreenAllTrans';
 import ScreenMess from './Screens/ScreenMess';
 import ScreenChat from './Screens/ScreenChat';
+import ScreenFindpassword from './Screens/ScreenFindpassword';
 
 
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -40,7 +41,7 @@ import ScreenChat from './Screens/ScreenChat';
             }
           />
           <Stack.Screen name="loginNote" component={Screenlogin} options={ { headerShown:false}}/>
-          <Stack.Screen name="RegisterNote" component={ScreenRegister}/>
+          <Stack.Screen name="RegisterNote" component={ScreenRegister} options={{title:'Đăng ký'}}/>
           <Stack.Screen name="category" component={CategoryScreen}/>
           <Stack.Screen name="addcategory" component={ScreenAddcate}/>
           <Stack.Screen name="chooseIcon" component={ScreenchooseIcon}/>
@@ -53,6 +54,7 @@ import ScreenChat from './Screens/ScreenChat';
           <Stack.Screen name="AllTrans" component={ScreenAllTrans} options={{title:'Giao dịch',animation: 'slide_from_right'}}/>
           <Stack.Screen name="Mess" component={ScreenMess}options={{title:'Thông báo',animation: 'slide_from_right'}}/>
            <Stack.Screen name="Chat" component={ScreenChat}options={{title:'Trợ lý ảo',animation: 'slide_from_right'}}/>
+            <Stack.Screen name="Findpassword" component={ScreenFindpassword}options={{title:'Tìm mật khẩu'}}/>
         
         </Stack.Navigator>
       </NavigationContainer>

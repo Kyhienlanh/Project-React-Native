@@ -62,7 +62,12 @@ const Screenlogin = () => {
       <TouchableOpacity style={styles.button} onPress={CheckLogin}>
         <Text style={styles.buttonText}>Đăng nhập</Text>
       </TouchableOpacity>
-
+       <Text style={styles.registerText}>
+       
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Findpassword')}>
+           Tìm mật khẩu
+        </Text>
+      </Text>
       <Text style={styles.registerText}>
         Bạn chưa có tài khoản?{' '}
         <Text style={styles.linkText} onPress={() => navigation.navigate('RegisterNote')}>
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: 'green',
     paddingVertical: 14,
     borderRadius: 10,
     marginTop: 10,
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   linkText: {
-    color: '#007bff',
+    color: 'green',
     fontWeight: 'bold',
   },
 });
