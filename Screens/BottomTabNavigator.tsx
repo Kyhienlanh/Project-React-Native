@@ -61,6 +61,7 @@ const BottomTabNavigator = () => {
               <Ionicons name="add" size={32} color="#fff" />
             </TouchableOpacity>
           ),
+          animation:'fade'
         }}
       />
       <Tab.Screen name="Reports" component={ScreenReports} />

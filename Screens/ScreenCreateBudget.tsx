@@ -10,7 +10,7 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import DateRangePickerModal from './DateRangePickerModal';
 import auth from '@react-native-firebase/auth';
-
+import { useNavigation ,NavigationProp} from '@react-navigation/native';
 const formatDate = (date: Date): string => {
   const d = new Date(date);
   return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1)
@@ -25,7 +25,7 @@ const ScreenCreateBudget: React.FC = () => {
   const [selectedLabel, setSelectedLabel] = useState<string>('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
   const handleSaveBudget = async () => {
     if (!name || !limit || !startDate || !endDate) {
       Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ thông tin và chọn khoảng thời gian');
@@ -55,6 +55,7 @@ const ScreenCreateBudget: React.FC = () => {
       setSelectedLabel('');
       setStartDate(null);
       setEndDate(null);
+      navigation.goBack();
     } catch (error) {
       Alert.alert('Lỗi', 'Không thể lưu ngân sách');
       console.error(error);

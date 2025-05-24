@@ -45,14 +45,14 @@ import ScreenChat from './Screens/ScreenChat';
           <Stack.Screen name="addcategory" component={ScreenAddcate}/>
           <Stack.Screen name="chooseIcon" component={ScreenchooseIcon}/>
           <Stack.Screen name="detailTransactions" component={ScreendetailTransactions}/>
-          <Stack.Screen name="Chart" component={ScreenChart}/>
-          <Stack.Screen name="info" component={ScreenInfo}/>
-          <Stack.Screen name="Transactions" component={ScreenTransactions}/>
-          <Stack.Screen name="CreateBudget" component={ScreenCreateBudget}/>
-          <Stack.Screen name="forgotPassword" component={ScreenforgotPassword}/>
-          <Stack.Screen name="AllTrans" component={ScreenAllTrans}/>
-          <Stack.Screen name="Mess" component={ScreenMess}/>
-           <Stack.Screen name="Chat" component={ScreenChat}/>
+          <Stack.Screen name="Chart" component={ScreenChart} options={{title:'Thống kê thu chi',animation: 'slide_from_bottom'}}/>
+          <Stack.Screen name="info" component={ScreenInfo} options={{title:'Thông tin cá nhân',animation: 'slide_from_right'}}/>
+          <Stack.Screen name="Transactions" component={ScreenTransactions} options={{}}/>
+          <Stack.Screen name="CreateBudget" component={ScreenCreateBudget}options={{title:'Ngân sách',animation: 'slide_from_right'}}/>
+          <Stack.Screen name="forgotPassword" component={ScreenforgotPassword} options={{title:'Đổi mật khẩu',animation: 'slide_from_right'}}/>
+          <Stack.Screen name="AllTrans" component={ScreenAllTrans} options={{title:'Giao dịch',animation: 'slide_from_right'}}/>
+          <Stack.Screen name="Mess" component={ScreenMess}options={{title:'Thông báo',animation: 'slide_from_right'}}/>
+           <Stack.Screen name="Chat" component={ScreenChat}options={{title:'Trợ lý ảo',animation: 'slide_from_right'}}/>
         
         </Stack.Navigator>
       </NavigationContainer>

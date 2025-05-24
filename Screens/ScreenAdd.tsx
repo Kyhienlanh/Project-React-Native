@@ -261,7 +261,8 @@ const uploadImage = async () => {
           </>
         )}
 
-        <Button title="Lưu" onPress={handleSave} />
+        
+        <Button title="Lưu" onPress={handleSave}  color="green"/>
       </View>
     </ScrollView>
   );
